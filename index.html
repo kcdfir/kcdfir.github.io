@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KC DFIR — Digital Forensics & Incident Response</title>
+<meta name="description" content="Kansas City-based digital forensics and incident response practitioner. Blue team defense, detection engineering, and IR expertise.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:   #042C53;
+    --blue:   #185FA5;
+    --mid:    #378ADD;
+    --cloud:  #E6F1FB;
+    --teal:   #0F6E56;
+    --teal-lt:#E1F5EE;
+    --ash:    #F1EFE8;
+    --ink:    #1a1a18;
+    --muted:  #5F5E5A;
+    --border: rgba(4,44,83,0.12);
+    --mono:   'DM Mono', monospace;
+    --serif:  'Instrument Serif', serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--mono);
+    background: #fafaf8;
+    color: var(--ink);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* ── GRID RULE BACKGROUND ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(4,44,83,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(4,44,83,0.04) 1px, transparent 1px);
+    background-size: 48px 48px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.25rem 2.5rem;
+    background: rgba(250,250,248,0.88);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-logo {
+    font-family: var(--mono);
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--navy);
+    text-decoration: none;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-size: 11px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color .2s;
+  }
+
+  .nav-links a:hover { color: var(--navy); }
+
+  /* ── HERO ── */
+  .hero {
+    position: relative;
+    z-index: 1;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 8rem 2.5rem 4rem;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .hero-eyebrow {
+    font-size: 11px;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: var(--blue);
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    animation: fadeUp .6s ease forwards .2s;
+  }
+
+  .hero-eyebrow::before {
+    content: '';
+    display: inline-block;
+    width: 32px;
+    height: 1px;
+    background: var(--blue);
+    vertical-align: middle;
+    margin-right: 10px;
+  }
+
+  .hero-title {
+    font-family: var(--serif);
+    font-size: clamp(3rem, 7vw, 6rem);
+    line-height: 1.05;
+    color: var(--navy);
+    margin-bottom: 1rem;
+    opacity: 0;
+    animation: fadeUp .7s ease forwards .35s;
+  }
+
+  .hero-title em {
+    font-style: italic;
+    color: var(--blue);
+  }
+
+  .hero-sub {
+    font-size: 14px;
+    color: var(--muted);
+    max-width: 520px;
+    margin-bottom: 2.5rem;
+    line-height: 1.8;
+    opacity: 0;
+    animation: fadeUp .7s ease forwards .5s;
+  }
+
+  .hero-cta {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    opacity: 0;
+    animation: fadeUp .7s ease forwards .65s;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: .75rem 1.5rem;
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 2px;
+    transition: all .2s;
+    cursor: pointer;
+    border: none;
+  }
+
+  .btn-primary {
+    background: var(--navy);
+    color: #fff;
+  }
+
+  .btn-primary:hover {
+    background: var(--blue);
+    transform: translateY(-2px);
+  }
+
+  .btn-outline {
+    background: transparent;
+    color: var(--navy);
+    border: 1px solid var(--navy);
+  }
+
+  .btn-outline:hover {
+    background: var(--cloud);
+    transform: translateY(-2px);
+  }
+
+  /* ── HERO BADGE ── */
+  .location-badge {
+    position: absolute;
+    right: 2.5rem;
+    bottom: 4rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
+    opacity: 0;
+    animation: fadeIn .8s ease forwards 1s;
+  }
+
+  .location-badge span {
+    font-size: 10px;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .location-badge strong {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--navy);
+  }
+
+  /* ── SECTION SHARED ── */
+  section {
+    position: relative;
+    z-index: 1;
+  }
+
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 2.5rem;
+  }
+
+  .section-label {
+    font-size: 10px;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    color: var(--blue);
+    margin-bottom: 2.5rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* ── EXPERTISE ── */
+  #expertise {
+    padding: 6rem 0;
+    border-top: 1px solid var(--border);
+  }
+
+  .expertise-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+  }
+
+  .expertise-card {
+    background: #fafaf8;
+    padding: 2rem;
+    transition: background .2s;
+  }
+
+  .expertise-card:hover { background: var(--cloud); }
+
+  .expertise-number {
+    font-size: 10px;
+    letter-spacing: .15em;
+    color: var(--muted);
+    margin-bottom: 1.25rem;
+    display: block;
+  }
+
+  .expertise-card h3 {
+    font-family: var(--serif);
+    font-size: 1.4rem;
+    color: var(--navy);
+    margin-bottom: .75rem;
+    font-weight: 400;
+  }
+
+  .expertise-card p {
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.8;
+  }
+
+  /* ── ABOUT ── */
+  #about {
+    padding: 6rem 0;
+    border-top: 1px solid var(--border);
+  }
+
+  .about-layout {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: 4rem;
+    align-items: start;
+  }
+
+  .about-left h2 {
+    font-family: var(--serif);
+    font-size: clamp(2rem, 4vw, 3rem);
+    color: var(--navy);
+    font-weight: 400;
+    line-height: 1.15;
+    margin-bottom: 1.5rem;
+  }
+
+  .about-left h2 em {
+    font-style: italic;
+    color: var(--blue);
+  }
+
+  .about-right p {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.9;
+    margin-bottom: 1.25rem;
+  }
+
+  .tag-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 1.5rem;
+  }
+
+  .tag {
+    font-size: 10px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    padding: 5px 12px;
+    border: 1px solid var(--border);
+    color: var(--navy);
+    background: var(--ash);
+  }
+
+  /* ── CONTACT ── */
+  #contact {
+    padding: 6rem 0;
+    border-top: 1px solid var(--border);
+    background: var(--navy);
+  }
+
+  #contact .section-label { color: var(--mid); }
+  #contact .section-label::after { background: rgba(255,255,255,0.1); }
+
+  .contact-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+  }
+
+  .contact-left h2 {
+    font-family: var(--serif);
+    font-size: clamp(2rem, 4vw, 3rem);
+    color: #fff;
+    font-weight: 400;
+    line-height: 1.15;
+    margin-bottom: 1rem;
+  }
+
+  .contact-left h2 em {
+    font-style: italic;
+    color: var(--mid);
+  }
+
+  .contact-left p {
+    font-size: 12px;
+    color: rgba(255,255,255,0.5);
+    line-height: 1.8;
+  }
+
+  .contact-links {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+  }
+
+  .contact-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.25rem 1.5rem;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    color: #fff;
+    text-decoration: none;
+    font-size: 12px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    transition: all .2s;
+    margin-bottom: 1px;
+  }
+
+  .contact-link:hover {
+    background: rgba(55,138,221,0.2);
+    border-color: var(--mid);
+    padding-left: 2rem;
+  }
+
+  .contact-link span { color: rgba(255,255,255,0.3); font-size: 11px; }
+
+  /* ── FOOTER ── */
+  footer {
+    position: relative;
+    z-index: 1;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    background: var(--navy);
+    padding: 1.5rem 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  footer p {
+    font-size: 10px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.25);
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    .hero { padding: 7rem 1.5rem 3rem; }
+    .location-badge { display: none; }
+    .container { padding: 0 1.5rem; }
+    .about-layout,
+    .contact-layout { grid-template-columns: 1fr; gap: 2rem; }
+    footer { flex-direction: column; gap: .5rem; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">KC DFIR</a>
+  <ul class="nav-links">
+    <li><a href="#expertise">Expertise</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <p class="hero-eyebrow">Kansas City, Missouri</p>
+  <h1 class="hero-title">Digital Forensics<br>&amp; <em>Incident Response</em></h1>
+  <p class="hero-sub">
+    Blue team practitioner specializing in incident response, digital forensics,
+    and detection engineering. Based in Kansas City — built for the frontlines of defense.
+  </p>
+  <div class="hero-cta">
+    <a href="#expertise" class="btn btn-primary">View Expertise →</a>
+    <a href="#contact" class="btn btn-outline">Get in Touch</a>
+  </div>
+  <div class="location-badge">
+    <span>Based in</span>
+    <strong>Kansas City, MO</strong>
+    <span>Open to remote engagements</span>
+  </div>
+</div>
+
+<!-- EXPERTISE -->
+<section id="expertise">
+  <div class="container">
+    <p class="section-label">01 — Expertise</p>
+    <div class="expertise-grid">
+      <div class="expertise-card">
+        <span class="expertise-number">001</span>
+        <h3>Incident Response</h3>
+        <p>End-to-end IR engagements from triage through remediation. Rapid scoping, evidence preservation, and stakeholder communication under pressure.</p>
+      </div>
+      <div class="expertise-card">
+        <span class="expertise-number">002</span>
+        <h3>Digital Forensics</h3>
+        <p>Host-based and memory forensics, disk imaging, artifact analysis, and chain-of-custody documentation. Windows, Linux, and cloud environments.</p>
+      </div>
+      <div class="expertise-card">
+        <span class="expertise-number">003</span>
+        <h3>Detection Engineering</h3>
+        <p>Threat-informed detection development using MITRE ATT&amp;CK. SIGMA rule authoring, SIEM tuning, and detection validation pipelines.</p>
+      </div>
+      <div class="expertise-card">
+        <span class="expertise-number">004</span>
+        <h3>Blue Team Defense</h3>
+        <p>Building and maturing defensive capabilities — SOC processes, playbooks, alert triage workflows, and analyst enablement programs.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="container">
+    <p class="section-label">02 — About</p>
+    <div class="about-layout">
+      <div class="about-left">
+        <h2>Practitioner.<br><em>Not just</em><br>a consultant.</h2>
+      </div>
+      <div class="about-right">
+        <p>
+          I'm a Kansas City-based cybersecurity professional focused on the defensive side of the house.
+          My work lives at the intersection of incident response, digital forensics, and detection engineering —
+          the unglamorous, critical work that happens when things go wrong and when preparing to stop them from going wrong in the first place.
+        </p>
+        <p>
+          I believe in sharing what I learn. You'll find my technical writing, open-source detection rules,
+          and IR playbooks published publicly — because the community gets stronger when practitioners share the work.
+        </p>
+        <p>
+          When I'm not hunting threats, I'm writing about them at
+          <a href="https://bbqandbytes.com" style="color: var(--blue); text-decoration: none;">BBQ &amp; Bytes</a>.
+        </p>
+        <div class="tag-row">
+          <span class="tag">Incident Response</span>
+          <span class="tag">DFIR</span>
+          <span class="tag">Detection Engineering</span>
+          <span class="tag">MITRE ATT&CK</span>
+          <span class="tag">SIGMA</span>
+          <span class="tag">Threat Hunting</span>
+          <span class="tag">Blue Team</span>
+          <span class="tag">Kansas City</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="container">
+    <p class="section-label">03 — Contact</p>
+    <div class="contact-layout">
+      <div class="contact-left">
+        <h2>Let's work<br><em>together.</em></h2>
+        <p>Available for consulting engagements, speaking opportunities, and collaboration. Based in Kansas City — remote-friendly everywhere else.</p>
+      </div>
+      <div class="contact-links">
+        <a href="mailto:hello@kcdfir.com" class="contact-link">
+          Email <span>hello@kcdfir.com</span>
+        </a>
+        <a href="https://linkedin.com/in/yourhandle" class="contact-link" target="_blank" rel="noopener">
+          LinkedIn <span>↗</span>
+        </a>
+        <a href="https://github.com/yourhandle" class="contact-link" target="_blank" rel="noopener">
+          GitHub <span>↗</span>
+        </a>
+        <a href="https://bbqandbytes.com" class="contact-link" target="_blank" rel="noopener">
+          BBQ &amp; Bytes <span>↗</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2026 KC DFIR — Kansas City, Missouri</p>
+  <p>Built with GitHub Pages</p>
+</footer>
+
+</body>
+</html>
