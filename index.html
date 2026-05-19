@@ -9,16 +9,16 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
 <style>
   :root {
-    --navy:   #042C53;
-    --blue:   #185FA5;
-    --mid:    #378ADD;
-    --cloud:  #E6F1FB;
-    --teal:   #0F6E56;
-    --teal-lt:#E1F5EE;
-    --ash:    #F1EFE8;
-    --ink:    #1a1a18;
-    --muted:  #5F5E5A;
-    --border: rgba(4,44,83,0.12);
+    --bg:     #0d1117;
+    --bg2:    #161b22;
+    --bg3:    #1c2330;
+    --blue:   #378ADD;
+    --blue-lt:#85B7EB;
+    --teal:   #1D9E75;
+    --ink:    #e6edf3;
+    --muted:  #7d8590;
+    --dim:    #484f58;
+    --border: rgba(55,138,221,0.15);
     --mono:   'DM Mono', monospace;
     --serif:  'Instrument Serif', serif;
   }
@@ -29,7 +29,7 @@
 
   body {
     font-family: var(--mono);
-    background: #fafaf8;
+    background: var(--bg);
     color: var(--ink);
     line-height: 1.6;
     overflow-x: hidden;
@@ -41,8 +41,8 @@
     position: fixed;
     inset: 0;
     background-image:
-      linear-gradient(rgba(4,44,83,0.04) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(4,44,83,0.04) 1px, transparent 1px);
+      linear-gradient(rgba(55,138,221,0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(55,138,221,0.05) 1px, transparent 1px);
     background-size: 48px 48px;
     pointer-events: none;
     z-index: 0;
@@ -57,7 +57,7 @@
     align-items: center;
     justify-content: space-between;
     padding: 1.25rem 2.5rem;
-    background: rgba(250,250,248,0.88);
+    background: rgba(13,17,23,0.88);
     backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--border);
   }
@@ -68,7 +68,7 @@
     font-weight: 500;
     letter-spacing: .12em;
     text-transform: uppercase;
-    color: var(--navy);
+    color: var(--blue-lt);
     text-decoration: none;
   }
 
@@ -87,7 +87,7 @@
     transition: color .2s;
   }
 
-  .nav-links a:hover { color: var(--navy); }
+  .nav-links a:hover { color: var(--ink); }
 
   /* ── HERO ── */
   .hero {
@@ -106,7 +106,7 @@
     font-size: 11px;
     letter-spacing: .2em;
     text-transform: uppercase;
-    color: var(--blue);
+    color: var(--teal);
     margin-bottom: 1.5rem;
     opacity: 0;
     animation: fadeUp .6s ease forwards .2s;
@@ -117,7 +117,7 @@
     display: inline-block;
     width: 32px;
     height: 1px;
-    background: var(--blue);
+    background: var(--teal);
     vertical-align: middle;
     margin-right: 10px;
   }
@@ -126,7 +126,7 @@
     font-family: var(--serif);
     font-size: clamp(3rem, 7vw, 6rem);
     line-height: 1.05;
-    color: var(--navy);
+    color: var(--ink);
     margin-bottom: 1rem;
     opacity: 0;
     animation: fadeUp .7s ease forwards .35s;
@@ -172,23 +172,25 @@
   }
 
   .btn-primary {
-    background: var(--navy);
+    background: var(--blue);
     color: #fff;
   }
 
   .btn-primary:hover {
-    background: var(--blue);
+    background: var(--blue-lt);
+    color: var(--bg);
     transform: translateY(-2px);
   }
 
   .btn-outline {
     background: transparent;
-    color: var(--navy);
-    border: 1px solid var(--navy);
+    color: var(--ink);
+    border: 1px solid var(--dim);
   }
 
   .btn-outline:hover {
-    background: var(--cloud);
+    border-color: var(--blue);
+    color: var(--blue-lt);
     transform: translateY(-2px);
   }
 
@@ -217,7 +219,7 @@
     font-weight: 500;
     letter-spacing: .12em;
     text-transform: uppercase;
-    color: var(--navy);
+    color: var(--blue-lt);
   }
 
   /* ── SECTION SHARED ── */
@@ -236,7 +238,7 @@
     font-size: 10px;
     letter-spacing: .22em;
     text-transform: uppercase;
-    color: var(--blue);
+    color: var(--teal);
     margin-bottom: 2.5rem;
     display: flex;
     align-items: center;
@@ -265,17 +267,17 @@
   }
 
   .expertise-card {
-    background: #fafaf8;
+    background: var(--bg2);
     padding: 2rem;
     transition: background .2s;
   }
 
-  .expertise-card:hover { background: var(--cloud); }
+  .expertise-card:hover { background: var(--bg3); }
 
   .expertise-number {
     font-size: 10px;
     letter-spacing: .15em;
-    color: var(--muted);
+    color: var(--dim);
     margin-bottom: 1.25rem;
     display: block;
   }
@@ -283,7 +285,7 @@
   .expertise-card h3 {
     font-family: var(--serif);
     font-size: 1.4rem;
-    color: var(--navy);
+    color: var(--ink);
     margin-bottom: .75rem;
     font-weight: 400;
   }
@@ -310,7 +312,7 @@
   .about-left h2 {
     font-family: var(--serif);
     font-size: clamp(2rem, 4vw, 3rem);
-    color: var(--navy);
+    color: var(--ink);
     font-weight: 400;
     line-height: 1.15;
     margin-bottom: 1.5rem;
@@ -341,19 +343,19 @@
     text-transform: uppercase;
     padding: 5px 12px;
     border: 1px solid var(--border);
-    color: var(--navy);
-    background: var(--ash);
+    color: var(--blue-lt);
+    background: var(--bg2);
   }
 
   /* ── CONTACT ── */
   #contact {
     padding: 6rem 0;
     border-top: 1px solid var(--border);
-    background: var(--navy);
+    background: var(--bg2);
   }
 
-  #contact .section-label { color: var(--mid); }
-  #contact .section-label::after { background: rgba(255,255,255,0.1); }
+  #contact .section-label { color: var(--teal); }
+  #contact .section-label::after { background: rgba(55,138,221,0.1); }
 
   .contact-layout {
     display: grid;
@@ -365,7 +367,7 @@
   .contact-left h2 {
     font-family: var(--serif);
     font-size: clamp(2rem, 4vw, 3rem);
-    color: #fff;
+    color: var(--ink);
     font-weight: 400;
     line-height: 1.15;
     margin-bottom: 1rem;
@@ -373,12 +375,12 @@
 
   .contact-left h2 em {
     font-style: italic;
-    color: var(--mid);
+    color: var(--blue);
   }
 
   .contact-left p {
     font-size: 12px;
-    color: rgba(255,255,255,0.5);
+    color: var(--muted);
     line-height: 1.8;
   }
 
@@ -393,9 +395,9 @@
     align-items: center;
     justify-content: space-between;
     padding: 1.25rem 1.5rem;
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(255,255,255,0.08);
-    color: #fff;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    color: var(--ink);
     text-decoration: none;
     font-size: 12px;
     letter-spacing: .08em;
@@ -405,19 +407,20 @@
   }
 
   .contact-link:hover {
-    background: rgba(55,138,221,0.2);
-    border-color: var(--mid);
+    background: rgba(55,138,221,0.1);
+    border-color: var(--blue);
     padding-left: 2rem;
+    color: var(--blue-lt);
   }
 
-  .contact-link span { color: rgba(255,255,255,0.3); font-size: 11px; }
+  .contact-link span { color: var(--dim); font-size: 11px; }
 
   /* ── FOOTER ── */
   footer {
     position: relative;
     z-index: 1;
-    border-top: 1px solid rgba(255,255,255,0.08);
-    background: var(--navy);
+    border-top: 1px solid var(--border);
+    background: var(--bg2);
     padding: 1.5rem 2.5rem;
     display: flex;
     align-items: center;
@@ -428,7 +431,7 @@
     font-size: 10px;
     letter-spacing: .12em;
     text-transform: uppercase;
-    color: rgba(255,255,255,0.25);
+    color: var(--dim);
   }
 
   /* ── ANIMATIONS ── */
@@ -535,7 +538,7 @@
         </p>
         <p>
           When I'm not hunting threats, I'm writing about them at
-          <a href="https://bbqandbytes.com" style="color: var(--blue); text-decoration: none;">BBQ &amp; Bytes</a>.
+          <a href="https://bbqandbytes.com" style="color: var(--blue-lt); text-decoration: none;">BBQ &amp; Bytes</a>.
         </p>
         <div class="tag-row">
           <span class="tag">Incident Response</span>
